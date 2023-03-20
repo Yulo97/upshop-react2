@@ -61,7 +61,7 @@ export const Navbar = () => {
               <CartWidget />
             </Box>
           </Toolbar>
-          <Toolbar sx={{ justifyContent: "space-around" }}>
+          <Toolbar sx={{ justifyContent: "space-around", position: "static" }}>
             {navLinks.map((item) => (
               <Button key={item.title} color="primary" component="a" href="#">
                 {item.title}

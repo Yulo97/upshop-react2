@@ -2,4 +2,10 @@
     display: flex;
     text-align: center;
     justify-content: center;
+    flex-wrap: wrap;
+    margin: 8vh 7vw 0 7vw;
+    div{
+        margin: 20px;
+    }
 }
+

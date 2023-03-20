@@ -2,6 +2,7 @@ import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import styles from "./CarouselIndex.module.scss";
 
 export const CarouselIndex = () => {
   const images = [
@@ -30,13 +31,14 @@ export const CarouselIndex = () => {
     autoplaySpeed: 3000, // Cambia el valor para ajustar la velocidad de transición entre imágenes
     slidesToShow: 1,
     slidesToScroll: 1,
+    arrows: false,
   };
 
   return (
     <Slider {...settings}>
       {images.map((item) => (
         <div key={item.id}>
-          <img src={item.link} alt={item.alt} style={{ width: "100vw", objectFit: "cover" }} />
+          <img src={item.link} alt={item.alt} className={styles.imgSlider} />
         </div>
       ))}
     </Slider>
