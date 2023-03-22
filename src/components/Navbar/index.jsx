@@ -5,32 +5,33 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Box } from "@mui/system";
 import { CartWidget } from "../CartWidget";
 import SearchIcon from "@mui/icons-material/Search";
+import { NavLink } from "react-router-dom";
 
 export const Navbar = () => {
   const navLinks = [
     {
       title: "Calzas",
-      path: "#",
+      path: "women's clothing",
     },
     {
       title: "Camperas",
-      path: "#",
-    },
-    {
-      title: "Remeras",
-      path: "#",
+      path: "men's clothing",
     },
     {
       title: "Abrigos ",
-      path: "#",
+      path: "women's clothing",
+    },
+    {
+      title: "Remeras",
+      path: "men's clothing",
     },
     {
       title: "Accesorios",
-      path: "#",
+      path: "jewelery",
     },
     {
       title: "Monoprendas",
-      path: "#",
+      path: "electronics",
     },
   ];
 
@@ -56,16 +57,18 @@ export const Navbar = () => {
                 }}
               />
             </Box>
-            <img style={{ width: "250px" }} src="/logo.png" />
+            <NavLink to={"/"}>
+              <img style={{ width: "250px" }} src="/logo.png" />
+            </NavLink>
             <Box sx={{ minWidth: "230px", display: "flex", justifyContent: { sm: "center", md: "flex-end" } }}>
               <CartWidget />
             </Box>
           </Toolbar>
           <Toolbar sx={{ justifyContent: "space-around", position: "static" }}>
             {navLinks.map((item) => (
-              <Button key={item.title} color="primary" component="a" href="#">
-                {item.title}
-              </Button>
+              <NavLink to={"/category/" + item.path} key={item.title} style={{ textDecoration: "none" }}>
+                <Button color="primary">{item.title}</Button>
+              </NavLink>
             ))}
           </Toolbar>
         </Box>

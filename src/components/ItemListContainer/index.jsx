@@ -3,16 +3,29 @@ import { ProductCard } from "../ProductCard";
 import styles from "./ItemListContainer.module.scss";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useParams } from "react-router-dom";
+import { Box, CircularProgress } from "@mui/material";
 
-export const ItemListContainer = ({ geeting }) => {
+export const ItemListContainer = () => {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const URL_API = "https://fakestoreapi.com/products";
+  const { name } = useParams();
+  let URL_API;
+
+  if (!name) {
+    URL_API = "https://fakestoreapi.com/products";
+  } else {
+    URL_API = `https://fakestoreapi.com/products/category/${name}`;
+  }
 
   const getProducts = async () => {
     try {
+      setLoading(true);
+
       const res = await axios(URL_API);
       setProducts(res.data);
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -20,8 +33,15 @@ export const ItemListContainer = ({ geeting }) => {
 
   useEffect(() => {
     getProducts();
-  }, []);
-  console.log(products);
+  }, [URL_API]);
+
+  if (loading) {
+    return (
+      <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "50vh" }}>
+        <CircularProgress color="primary" />
+      </Box>
+    );
+  }
 
   return (
     <div className={styles.contenedorItems}>
