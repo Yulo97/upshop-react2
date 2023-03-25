@@ -22,10 +22,10 @@ export const ItemListContainer = () => {
   const getProducts = async () => {
     try {
       setLoading(true);
-
       const res = await axios(URL_API);
       setProducts(res.data);
       setLoading(false);
+      console.log("asd");
     } catch (error) {
       console.log(error);
     }
