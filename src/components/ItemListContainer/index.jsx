@@ -6,7 +6,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Box, CircularProgress } from "@mui/material";
 
-export const ItemListContainer = () => {
+export const ItemListContainer = ({ findProduct, setFindProduct }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -21,11 +21,11 @@ export const ItemListContainer = () => {
 
   const getProducts = async () => {
     try {
+      setFindProduct("");
       setLoading(true);
       const res = await axios(URL_API);
       setProducts(res.data);
       setLoading(false);
-      console.log("asd");
     } catch (error) {
       console.log(error);
     }
@@ -40,6 +40,20 @@ export const ItemListContainer = () => {
       <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "50vh" }}>
         <CircularProgress color="primary" />
       </Box>
+    );
+  }
+
+  if (findProduct) {
+    const productosFiltrados = products.filter((product) =>
+      product.title.toLowerCase().includes(findProduct.toLowerCase())
+    );
+
+    return (
+      <div className={styles.contenedorItems}>
+        {productosFiltrados.map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </div>
     );
   }
 

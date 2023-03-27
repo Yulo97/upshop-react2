@@ -7,7 +7,7 @@ import { Box } from "@mui/system";
 import styles from "./ItemDetailContainer.module.scss";
 import { Typography, Button, CircularProgress } from "@mui/material/";
 
-export const ItemDetailContainer = () => {
+export const ItemDetailContainer = ({ setFindProduct }) => {
   const { id } = useParams();
   const URL_API = `https://fakestoreapi.com/products/${id}`;
 
@@ -25,6 +25,7 @@ export const ItemDetailContainer = () => {
   };
 
   useEffect(() => {
+    setFindProduct("");
     getProduct();
   }, []);
 

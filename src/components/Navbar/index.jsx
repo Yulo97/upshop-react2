@@ -7,7 +7,7 @@ import { CartWidget } from "../CartWidget";
 import SearchIcon from "@mui/icons-material/Search";
 import { NavLink } from "react-router-dom";
 
-export const Navbar = () => {
+export const Navbar = ({ setFindProduct, findProduct }) => {
   const navLinks = [
     {
       title: "Calzas",
@@ -37,6 +37,10 @@ export const Navbar = () => {
 
   const [open, setOpen] = useState(false);
 
+  const handleChange = (e) => {
+    setFindProduct(e.target.value);
+  };
+
   return (
     <nav>
       <AppBar color="inherit" position="static">
@@ -48,7 +52,8 @@ export const Navbar = () => {
                 variant="standard"
                 id="buscadorNavbar"
                 placeholder="Buscar"
-                onChange={() => alert("buscando")}
+                onChange={handleChange}
+                value={findProduct}
               />
               <SearchIcon
                 sx={{
