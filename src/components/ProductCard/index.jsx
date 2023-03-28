@@ -7,7 +7,28 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
 
-export const ProductCard = ({ product }) => {
+export const ProductCard = ({ product, cart, setCart }) => {
+  // ver posibilidad de enviar funcion a APP.jsx
+  const handleAddCart = () => {
+    const newCart = [...cart];
+    const indexProduct = newCart.findIndex((item) => item.id == product.id);
+
+    if (indexProduct !== -1) {
+      newCart[indexProduct].cantidad++;
+      setCart(newCart);
+    } else {
+      const newProduct = {
+        id: product.id,
+        cantidad: 1,
+        title: product.title,
+        price: product.price,
+        image: product.image,
+      };
+      newCart.push(newProduct);
+      setCart(newCart);
+    }
+  };
+
   return (
     <Card
       sx={{
@@ -17,7 +38,6 @@ export const ProductCard = ({ product }) => {
         "&:hover": { transform: "scale(1.05)" },
         display: "flex",
         flexDirection: "column",
-        // backgroundColor: "#FFF0FD",
       }}
     >
       <CardMedia sx={{ height: 300 }} image={product.image} title={product.title} />
@@ -35,7 +55,7 @@ export const ProductCard = ({ product }) => {
             Ver
           </Link>
         </Button>
-        <Button variant="contained" size="large" color="primary">
+        <Button variant="contained" size="large" color="primary" onClick={handleAddCart}>
           Comprar
         </Button>
       </CardActions>

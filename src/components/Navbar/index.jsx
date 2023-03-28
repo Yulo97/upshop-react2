@@ -7,7 +7,7 @@ import { CartWidget } from "../CartWidget";
 import SearchIcon from "@mui/icons-material/Search";
 import { NavLink } from "react-router-dom";
 
-export const Navbar = ({ setFindProduct, findProduct }) => {
+export const Navbar = ({ setFindProduct, findProduct, cart, setCart }) => {
   const navLinks = [
     {
       title: "Calzas",
@@ -65,13 +65,23 @@ export const Navbar = ({ setFindProduct, findProduct }) => {
             <NavLink to={"/"}>
               <img style={{ width: "250px" }} src="/logo.png" />
             </NavLink>
-            <Box sx={{ minWidth: "230px", display: "flex", justifyContent: { sm: "center", md: "flex-end" } }}>
-              <CartWidget />
+            <Box
+              sx={{
+                minWidth: "230px",
+                display: "flex",
+                justifyContent: { sm: "center", md: "flex-end" },
+              }}
+            >
+              <CartWidget cart={cart} setCart={setCart} />
             </Box>
           </Toolbar>
           <Toolbar sx={{ justifyContent: "space-around", position: "static" }}>
             {navLinks.map((item) => (
-              <NavLink to={"/category/" + item.path} key={item.title} style={{ textDecoration: "none" }}>
+              <NavLink
+                to={"/category/" + item.path}
+                key={item.title}
+                style={{ textDecoration: "none" }}
+              >
                 <Button color="primary">{item.title}</Button>
               </NavLink>
             ))}
@@ -86,11 +96,16 @@ export const Navbar = ({ setFindProduct, findProduct }) => {
           <Typography color="primary" variant="h6" sx={{ flexGrow: 1 }}>
             UP SHOP
           </Typography>
-          <CartWidget />
+          <CartWidget cart={cart} setCart={setCart} />
         </Toolbar>
       </AppBar>
 
-      <Drawer sx={{ display: { xs: "flex", sm: "none" } }} open={open} anchor="left" onClose={() => setOpen(false)}>
+      <Drawer
+        sx={{ display: { xs: "flex", sm: "none" } }}
+        open={open}
+        anchor="left"
+        onClose={() => setOpen(false)}
+      >
         <NavDrawer navLinks={navLinks} />
       </Drawer>
     </nav>

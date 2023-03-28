@@ -7,7 +7,7 @@ import { Box } from "@mui/system";
 import styles from "./ItemDetailContainer.module.scss";
 import { Typography, Button, CircularProgress } from "@mui/material/";
 
-export const ItemDetailContainer = ({ setFindProduct }) => {
+export const ItemDetailContainer = ({ setFindProduct, setCart, cart }) => {
   const { id } = useParams();
   const URL_API = `https://fakestoreapi.com/products/${id}`;
 
@@ -24,6 +24,27 @@ export const ItemDetailContainer = ({ setFindProduct }) => {
     }
   };
 
+  // ver posibilidad de enviar funcion a APP.jsx
+  const handleAddCart = () => {
+    const newCart = [...cart];
+    const indexProduct = newCart.findIndex((item) => item.id == product.id);
+
+    if (indexProduct !== -1) {
+      newCart[indexProduct].cantidad++;
+      setCart(newCart);
+    } else {
+      const newProduct = {
+        id: product.id,
+        cantidad: 1,
+        title: product.title,
+        price: product.price,
+        image: product.image,
+      };
+      newCart.push(newProduct);
+      setCart(newCart);
+    }
+  };
+
   useEffect(() => {
     setFindProduct("");
     getProduct();
@@ -31,7 +52,9 @@ export const ItemDetailContainer = ({ setFindProduct }) => {
 
   if (loading) {
     return (
-      <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "50vh" }}>
+      <Box
+        sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "50vhss" }}
+      >
         <CircularProgress color="primary" />
       </Box>
     );
@@ -57,7 +80,7 @@ export const ItemDetailContainer = ({ setFindProduct }) => {
               Precio: $ {product.price}
             </Typography>
             <Box>
-              <Button variant="contained" size="large" color="primary">
+              <Button variant="contained" size="large" color="primary" onClick={handleAddCart}>
                 Agregar al Carrito
               </Button>
             </Box>
