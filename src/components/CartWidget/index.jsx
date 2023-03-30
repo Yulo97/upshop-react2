@@ -46,13 +46,25 @@ export const CartWidget = ({ cart, setCart }) => {
   };
 
   const [cantidadProductos, setCantidadProductos] = useState(0);
+  const [priceCart, setPriceCart] = useState(0);
 
-  useEffect(() => {
+  const getCantCart = () => {
     const totalProductos = cart.reduce((total, product) => {
       return total + product.cantidad;
     }, 0);
-
     setCantidadProductos(totalProductos);
+  };
+
+  const getPriceCart = () => {
+    const totalPriceCart = cart.reduce((total, product) => {
+      return total + product.price * product.cantidad;
+    }, 0);
+    setPriceCart(totalPriceCart);
+  };
+
+  useEffect(() => {
+    getCantCart();
+    getPriceCart();
   }, [cart]);
 
   return (
@@ -71,14 +83,22 @@ export const CartWidget = ({ cart, setCart }) => {
             CARRITO DE COMPRAS
           </Typography>
           <Divider />
-          <Box sx={{ flexGrow: 1, mt: 2 }}>
+          <Box sx={{ flexGrow: 1, mt: 2, mb: 2 }}>
             <Grid container spacing={2}>
               {cart.map((product) => (
                 <CartItem key={product.id} product={product} deleteItemCart={deleteItemCart} />
               ))}
             </Grid>
           </Box>
-          <Box sx={{ display: "flex", justifyContent: "space-around", marginTop: 4 }}>
+          <Divider />
+          <Typography
+            variant="h6"
+            color="initial"
+            sx={{ display: "flex", justifyContent: "center", mt: 2 }}
+          >
+            Total: $ {priceCart.toFixed(2)}
+          </Typography>
+          <Box sx={{ display: "flex", justifyContent: "space-around", marginTop: 2 }}>
             <Button
               onClick={() => setCart([])}
               size="large"

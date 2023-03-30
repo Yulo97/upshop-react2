@@ -6,7 +6,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Box, CircularProgress } from "@mui/material";
 
-export const ItemListContainer = ({ findProduct, setFindProduct, cart, setCart }) => {
+export const ItemListContainer = ({ findProduct, setFindProduct }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -51,7 +51,7 @@ export const ItemListContainer = ({ findProduct, setFindProduct, cart, setCart }
     return (
       <div className={styles.contenedorItems}>
         {productosFiltrados.map((product) => (
-          <ProductCard key={product.id} product={product} setCart={setCart} cart={cart} />
+          <ProductCard key={product.id} product={product} />
         ))}
       </div>
     );
@@ -60,7 +60,7 @@ export const ItemListContainer = ({ findProduct, setFindProduct, cart, setCart }
   return (
     <div className={styles.contenedorItems}>
       {products.map((product) => (
-        <ProductCard key={product.id} product={product} setCart={setCart} cart={cart} />
+        <ProductCard key={product.id} product={product} />
       ))}
     </div>
   );

@@ -6,28 +6,11 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { CartContext } from "../../context/CartContext";
 
-export const ProductCard = ({ product, cart, setCart }) => {
-  // ver posibilidad de enviar funcion a APP.jsx
-  const handleAddCart = () => {
-    const newCart = [...cart];
-    const indexProduct = newCart.findIndex((item) => item.id == product.id);
-
-    if (indexProduct !== -1) {
-      newCart[indexProduct].cantidad++;
-      setCart(newCart);
-    } else {
-      const newProduct = {
-        id: product.id,
-        cantidad: 1,
-        title: product.title,
-        price: product.price,
-        image: product.image,
-      };
-      newCart.push(newProduct);
-      setCart(newCart);
-    }
-  };
+export const ProductCard = ({ product }) => {
+  const handleAddCart = useContext(CartContext);
 
   return (
     <Card
@@ -55,7 +38,12 @@ export const ProductCard = ({ product, cart, setCart }) => {
             Ver
           </Link>
         </Button>
-        <Button variant="contained" size="large" color="primary" onClick={handleAddCart}>
+        <Button
+          variant="contained"
+          size="large"
+          color="primary"
+          onClick={() => handleAddCart(product)}
+        >
           Comprar
         </Button>
       </CardActions>
