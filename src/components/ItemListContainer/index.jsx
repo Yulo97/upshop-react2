@@ -5,10 +5,14 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Box, CircularProgress } from "@mui/material";
+import { useContext } from "react";
+import { CartContext } from "../../context/CartContext";
 
-export const ItemListContainer = ({ findProduct, setFindProduct }) => {
+export const ItemListContainer = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const { setFindProduct, findProduct } = useContext(CartContext);
 
   const { name } = useParams();
   let URL_API;

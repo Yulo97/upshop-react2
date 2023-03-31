@@ -8,14 +8,14 @@ import styles from "./ItemDetailContainer.module.scss";
 import { Typography, Button, CircularProgress } from "@mui/material/";
 import { CartContext } from "../../context/CartContext";
 
-export const ItemDetailContainer = ({ setFindProduct }) => {
+export const ItemDetailContainer = () => {
   const { id } = useParams();
   const URL_API = `https://fakestoreapi.com/products/${id}`;
 
   const [product, setProduct] = useState({});
   const [loading, setLoading] = useState(true);
 
-  const handleAddCart = useContext(CartContext);
+  const { setFindProduct, handleAddCart } = useContext(CartContext);
 
   const getProduct = async () => {
     try {
@@ -34,9 +34,7 @@ export const ItemDetailContainer = ({ setFindProduct }) => {
 
   if (loading) {
     return (
-      <Box
-        sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "50vhss" }}
-      >
+      <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "50vh" }}>
         <CircularProgress color="primary" />
       </Box>
     );

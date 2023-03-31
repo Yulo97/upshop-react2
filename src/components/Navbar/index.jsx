@@ -6,8 +6,14 @@ import { Box } from "@mui/system";
 import { CartWidget } from "../CartWidget";
 import SearchIcon from "@mui/icons-material/Search";
 import { NavLink } from "react-router-dom";
+import { useContext } from "react";
+import { CartContext } from "../../context/CartContext";
 
-export const Navbar = ({ setFindProduct, findProduct, cart, setCart }) => {
+export const Navbar = () => {
+  const [open, setOpen] = useState(false);
+
+  const { cart, setCart, setFindProduct, findProduct } = useContext(CartContext);
+
   const navLinks = [
     {
       title: "Calzas",
@@ -34,8 +40,6 @@ export const Navbar = ({ setFindProduct, findProduct, cart, setCart }) => {
       path: "electronics",
     },
   ];
-
-  const [open, setOpen] = useState(false);
 
   const handleChange = (e) => {
     setFindProduct(e.target.value);

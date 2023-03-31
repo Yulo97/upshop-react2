@@ -5,6 +5,8 @@ import { Box } from "@mui/system";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { CartItem } from "../CartItem";
+import { useContext } from "react";
+import { CartContext } from "../../context/CartContext";
 
 const style = {
   position: "absolute",
@@ -19,10 +21,12 @@ const style = {
   p: 4,
 };
 
-export const CartWidget = ({ cart, setCart }) => {
+export const CartWidget = () => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const { cart, setCart } = useContext(CartContext);
 
   const deleteItemCart = (id) => {
     const newCart = cart

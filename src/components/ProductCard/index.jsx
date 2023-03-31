@@ -10,19 +10,19 @@ import { useContext } from "react";
 import { CartContext } from "../../context/CartContext";
 
 export const ProductCard = ({ product }) => {
-  const handleAddCart = useContext(CartContext);
+  const { handleAddCart } = useContext(CartContext);
+
+  const styleCard = {
+    height: 500,
+    width: 300,
+    transition: " 0.2s",
+    "&:hover": { transform: "scale(1.05)" },
+    display: "flex",
+    flexDirection: "column",
+  };
 
   return (
-    <Card
-      sx={{
-        height: 500,
-        width: 300,
-        transition: " 0.2s",
-        "&:hover": { transform: "scale(1.05)" },
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
+    <Card sx={styleCard}>
       <CardMedia sx={{ height: 300 }} image={product.image} title={product.title} />
       <CardContent sx={{ flexGrow: 1, padding: "0px", margin: "0 !important" }}>
         <Typography gutterBottom variant="h6" component="div" sx={{ margin: "0px" }}>
