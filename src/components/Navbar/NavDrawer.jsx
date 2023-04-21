@@ -1,5 +1,6 @@
 import { Box, List, ListItem, ListItemButton } from "@mui/material";
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 export const NavDrawer = ({ navLinks }) => {
   return (
@@ -11,8 +12,13 @@ export const NavDrawer = ({ navLinks }) => {
       <List>
         {navLinks.map((item) => (
           <ListItem key={item.title} disablePadding>
-            <ListItemButton component="a" href={item.path}>
-              {item.title}
+            <ListItemButton>
+              <NavLink
+                to={"/category/" + item.path}
+                style={{ textDecoration: "none", color: "black" }}
+              >
+                {item.title}
+              </NavLink>
             </ListItemButton>
           </ListItem>
         ))}

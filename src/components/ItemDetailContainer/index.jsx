@@ -1,7 +1,6 @@
-import axios from "axios";
 import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
-import { Grid } from "@mui/material/";
+import { Grid, Input } from "@mui/material/";
 import Container from "@mui/material/Container";
 import { Box } from "@mui/system";
 import styles from "./ItemDetailContainer.module.scss";
@@ -10,12 +9,15 @@ import { CartContext } from "../../context/CartContext";
 import { doc, getDoc } from "firebase/firestore";
 import db from "../../../db/firebase-config.js";
 import { useNavigate } from "react-router-dom";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 
 export const ItemDetailContainer = () => {
   const { id } = useParams();
 
   const [product, setProduct] = useState({});
   const [loading, setLoading] = useState(true);
+  const [cantidad, setCantidad] = useState(1);
 
   const { setFindProduct, handleAddCart } = useContext(CartContext);
 
@@ -25,7 +27,6 @@ export const ItemDetailContainer = () => {
     try {
       const docRef = doc(db, "items", id);
       const docSnap = await getDoc(docRef);
-      console.log(docRef.id);
 
       if (docSnap.exists()) {
         setLoading(false);
@@ -70,6 +71,17 @@ export const ItemDetailContainer = () => {
             <Typography variant="body1" color="initial">
               Stock: {product.stock}
             </Typography>
+            <Box>
+              <Button size="small" onClick={() => cantidad >= 2 && setCantidad(cantidad - 1)}>
+                <RemoveIcon fontSize="small" />
+              </Button>
+              <Typography variant="1" color="initial">
+                {cantidad}
+              </Typography>
+              <Button size="small" onClick={() => setCantidad(cantidad + 1)}>
+                <AddIcon fontSize="small" />
+              </Button>
+            </Box>
             <Typography variant="h5" color="initial">
               Precio: $ {product.price}
             </Typography>
@@ -78,7 +90,10 @@ export const ItemDetailContainer = () => {
                 variant="contained"
                 size="large"
                 color="primary"
-                onClick={() => handleAddCart(product)}
+                onClick={() => {
+                  handleAddCart(product, cantidad);
+                  setCantidad(1);
+                }}
               >
                 Agregar al Carrito
               </Button>

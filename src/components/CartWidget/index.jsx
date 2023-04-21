@@ -85,7 +85,11 @@ export const CartWidget = () => {
 
   return (
     <>
-      <Button variant="outlined" startIcon={<ShoppingCartOutlinedIcon />} onClick={handleOpen}>
+      <Button
+        variant="outlined"
+        startIcon={<ShoppingCartOutlinedIcon />}
+        onClick={() => cart.length != 0 && handleOpen()}
+      >
         {cantidadProductos}
       </Button>
       <Modal

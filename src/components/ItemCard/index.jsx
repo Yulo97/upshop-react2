@@ -35,12 +35,12 @@ export const ItemCard = ({ product }) => {
           Stock: {product.stock}
         </Typography>
       </CardContent>
-      <CardActions sx={{ justifyContent: "center" }}>
-        <Button variant="contained" size="large" color="secondary">
-          <Link to={`/item/${product.id}`} style={{ textDecoration: "none", color: "black" }}>
+      <CardActions sx={{ justifyContent: "center", gap: 2 }}>
+        <Link to={`/item/${product.id}`} style={{ textDecoration: "none", color: "black" }}>
+          <Button variant="contained" size="large" color="secondary">
             Ver
-          </Link>
-        </Button>
+          </Button>
+        </Link>
         <Button
           variant="contained"
           size="large"

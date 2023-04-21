@@ -23,6 +23,7 @@ import {
 import { collection, addDoc, doc, getDoc, updateDoc } from "firebase/firestore";
 import db from "../../../db/firebase-config.js";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export function Checkout() {
   const { cart, setCart } = useContext(CartContext);
@@ -78,45 +79,83 @@ export function Checkout() {
   };
 
   const enviarPedido = async () => {
-    if (metodoPago && nombre && apellido && email && telefono && cart) {
-      if (email && email == verifEmail) {
-        const docRef = await addDoc(collection(db, "orders"), {
-          nombre: nombre + " " + apellido,
-          email: email,
-          telefono: telefono,
-          provincia: provincia,
-          codigoPostal: codigoPostal,
-          direccion: direccion,
-          metodoPago: metodoPago,
-          cart: cart,
-        });
-        console.log("Solicitud realizacon con el ID: ", docRef.id);
+    if (cart.length > 0) {
+      if (metodoPago && nombre && apellido && email && telefono) {
+        if (email && email == verifEmail) {
+          const docRef = await addDoc(collection(db, "orders"), {
+            nombre: nombre + " " + apellido,
+            email: email,
+            telefono: telefono,
+            provincia: provincia,
+            codigoPostal: codigoPostal,
+            direccion: direccion,
+            metodoPago: metodoPago,
+            cart: cart,
+          });
+          console.log("Solicitud realizacon con el ID: ", docRef.id);
 
-        cart.forEach(async (element) => {
-          // Obtener una referencia al documento del producto que se va a actualizar.
-          const productRef = doc(db, "items", element.id);
-          const productDoc = await getDoc(productRef);
+          cart.forEach(async (element) => {
+            // Obtener una referencia al documento del producto que se va a actualizar.
+            const productRef = doc(db, "items", element.id);
+            const productDoc = await getDoc(productRef);
 
-          // Actualizar el valor del stock del producto.
-          const stockActual = productDoc.data().stock;
-          const newStock = stockActual - element.cantidad;
+            // Actualizar el valor del stock del producto.
+            const stockActual = productDoc.data().stock;
+            const newStock = stockActual - element.cantidad;
 
-          const updateData = { stock: newStock };
+            const updateData = { stock: newStock };
 
-          // Guardar los cambios en Firestore.
-          await updateDoc(productRef, updateData);
-        });
+            // Guardar los cambios en Firestore.
+            await updateDoc(productRef, updateData);
+          });
 
-        setTimeout(() => {
-          setCart([]);
-          localStorage.removeItem("cart");
-          navigate(`/exito/${docRef.id}`);
-        }, 0);
+          setTimeout(() => {
+            setCart([]);
+            localStorage.removeItem("cart");
+            navigate(`/exito/${docRef.id}`);
+          }, 0);
+        } else {
+          toast.error("Tu correo no coincide!", {
+            position: "bottom-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            icon: "🦄",
+          });
+        }
       } else {
-        alert("El correo electronico no coincide");
+        toast.error("Competa todos los campos!", {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          icon: "🦄",
+        });
       }
     } else {
-      alert("Debes completar todos los campos");
+      toast.error("Debes agregar productos!", {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        icon: "🦄",
+      });
+
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
     }
   };
 

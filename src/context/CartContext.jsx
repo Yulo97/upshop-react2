@@ -56,18 +56,18 @@ export const CartProvider = ({ children }) => {
       },
     });
 
-  const handleAddCart = (product) => {
+  const handleAddCart = (product, cant = 1) => {
     const newCart = [...cart];
     const indexProduct = newCart.findIndex((item) => item.id == product.id);
 
     if (indexProduct !== -1) {
-      newCart[indexProduct].cantidad++;
+      newCart[indexProduct].cantidad += cant;
       setCart(newCart);
       toastyAddProduct();
     } else {
       const newProduct = {
         id: product.id,
-        cantidad: 1,
+        cantidad: cant,
         title: product.title,
         price: product.price,
         image: product.image,
