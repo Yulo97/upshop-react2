@@ -3,8 +3,7 @@
       { "source": "/(.*)", "destination": "/index.html" }
     ],
     "error": {
-      "rewrites": [
-        { "source": "/(.*)", "destination": "/index.html" }
-      ]
+     "status": 404,
+     "file": "404.html"
     }
-  }
+}
