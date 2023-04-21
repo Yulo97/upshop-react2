@@ -6,6 +6,9 @@ import { Routes, Route } from "react-router-dom";
 import { ItemDetailContainer } from "./components/ItemDetailContainer";
 import { useContext } from "react";
 import { CartContext } from "./context/CartContext";
+import { Checkout } from "./components/Checkout";
+import { CheckoutExito } from "./components/CheckoutExito";
+import { Error } from "./components/Error";
 
 function App() {
   const { findProduct } = useContext(CartContext);
@@ -18,13 +21,16 @@ function App() {
           path="/"
           element={
             <>
-              {!findProduct && <CarouselIndex />}
+              {!findProduct ? <CarouselIndex /> : <></>}
               <ItemListContainer />
             </>
           }
         />
         <Route path="category/:name" element={<ItemListContainer />} />
         <Route path="item/:id" element={<ItemDetailContainer />} />
+        <Route path="checkout" element={<Checkout />} />
+        <Route path="exito/:id" element={<CheckoutExito />} />
+        <Route path="*" element={<Error />} />
       </Routes>
     </>
   );

@@ -1,11 +1,60 @@
-import { useState } from "react";
-import { createContext } from "react";
+import { createContext, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const CartContext = createContext(null);
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [findProduct, setFindProduct] = useState("");
+
+  const toastyAddProduct = () =>
+    toast("Producto Agregado", {
+      position: "bottom-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      icon: "💕",
+      progressStyle: {
+        background: "#fb07dc",
+      },
+    });
+
+  const toastyDeleteProduct = () =>
+    toast("Producto Eliminado", {
+      position: "bottom-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      icon: "😢",
+      progressStyle: {
+        background: "#fb07dc",
+      },
+    });
+
+  const toastyClearCart = () =>
+    toast("Carrito Vacio", {
+      position: "bottom-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      icon: "👜",
+      progressStyle: {
+        background: "#fb07dc",
+      },
+    });
 
   const handleAddCart = (product) => {
     const newCart = [...cart];
@@ -14,6 +63,7 @@ export const CartProvider = ({ children }) => {
     if (indexProduct !== -1) {
       newCart[indexProduct].cantidad++;
       setCart(newCart);
+      toastyAddProduct();
     } else {
       const newProduct = {
         id: product.id,
@@ -24,12 +74,25 @@ export const CartProvider = ({ children }) => {
       };
       newCart.push(newProduct);
       setCart(newCart);
+      toastyAddProduct();
     }
+    localStorage.setItem("cart", JSON.stringify(newCart));
   };
 
   return (
-    <CartContext.Provider value={{ cart, setCart, handleAddCart, findProduct, setFindProduct }}>
+    <CartContext.Provider
+      value={{
+        cart,
+        setCart,
+        handleAddCart,
+        findProduct,
+        setFindProduct,
+        toastyDeleteProduct,
+        toastyClearCart,
+      }}
+    >
       {children}
+      <ToastContainer />
     </CartContext.Provider>
   );
 };

@@ -7,6 +7,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { CartItem } from "../CartItem";
 import { useContext } from "react";
 import { CartContext } from "../../context/CartContext";
+import { Link } from "react-router-dom";
 
 const style = {
   position: "absolute",
@@ -26,7 +27,7 @@ export const CartWidget = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const { cart, setCart } = useContext(CartContext);
+  const { cart, setCart, toastyDeleteProduct, toastyClearCart } = useContext(CartContext);
 
   const deleteItemCart = (id) => {
     const newCart = cart
@@ -47,6 +48,11 @@ export const CartWidget = () => {
       .filter((product) => product !== null); // Elimina los productos que devolvieron null
 
     setCart(newCart);
+    localStorage.setItem("cart", JSON.stringify(newCart));
+    toastyDeleteProduct();
+    if (newCart.length == 0) {
+      localStorage.removeItem("cart");
+    }
   };
 
   const [cantidadProductos, setCantidadProductos] = useState(0);
@@ -64,6 +70,12 @@ export const CartWidget = () => {
       return total + product.price * product.cantidad;
     }, 0);
     setPriceCart(totalPriceCart);
+  };
+
+  const clearCart = () => {
+    setCart([]);
+    localStorage.removeItem("cart");
+    toastyClearCart();
   };
 
   useEffect(() => {
@@ -104,7 +116,7 @@ export const CartWidget = () => {
           </Typography>
           <Box sx={{ display: "flex", justifyContent: "space-around", marginTop: 2 }}>
             <Button
-              onClick={() => setCart([])}
+              onClick={clearCart}
               size="large"
               variant="contained"
               color="secondary"
@@ -113,7 +125,13 @@ export const CartWidget = () => {
               Vaciar Carrito
             </Button>
             <Button size="large" variant="contained" startIcon={<ShoppingBagIcon />}>
-              Finalizar Compra
+              <Link
+                to="/checkout"
+                onClick={handleClose}
+                style={{ textDecoration: "none", color: "white" }}
+              >
+                Finalizar Compra
+              </Link>
             </Button>
           </Box>
         </Box>

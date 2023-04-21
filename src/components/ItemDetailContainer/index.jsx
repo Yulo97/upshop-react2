@@ -7,23 +7,34 @@ import { Box } from "@mui/system";
 import styles from "./ItemDetailContainer.module.scss";
 import { Typography, Button, CircularProgress } from "@mui/material/";
 import { CartContext } from "../../context/CartContext";
+import { doc, getDoc } from "firebase/firestore";
+import db from "../../../db/firebase-config.js";
+import { useNavigate } from "react-router-dom";
 
 export const ItemDetailContainer = () => {
   const { id } = useParams();
-  const URL_API = `https://fakestoreapi.com/products/${id}`;
 
   const [product, setProduct] = useState({});
   const [loading, setLoading] = useState(true);
 
   const { setFindProduct, handleAddCart } = useContext(CartContext);
 
+  const navigate = useNavigate();
+
   const getProduct = async () => {
     try {
-      const res = await axios(URL_API);
-      setProduct(res.data);
-      setLoading(false);
+      const docRef = doc(db, "items", id);
+      const docSnap = await getDoc(docRef);
+      console.log(docRef.id);
+
+      if (docSnap.exists()) {
+        setLoading(false);
+        setProduct({ ...docSnap.data(), id: docRef.id });
+      } else {
+        navigate(`/error`);
+      }
     } catch (error) {
-      console.log(error);
+      console.log("Error: " + error);
     }
   };
 
@@ -55,6 +66,9 @@ export const ItemDetailContainer = () => {
             </Typography>
             <Typography variant="body1" color="initial">
               {product.description}
+            </Typography>
+            <Typography variant="body1" color="initial">
+              Stock: {product.stock}
             </Typography>
             <Typography variant="h5" color="initial">
               Precio: $ {product.price}

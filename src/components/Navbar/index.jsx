@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Drawer, Button, AppBar, IconButton, Typography, Toolbar, TextField } from "@mui/material";
 import { NavDrawer } from "./NavDrawer";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -16,34 +16,44 @@ export const Navbar = () => {
 
   const navLinks = [
     {
-      title: "Calzas",
-      path: "women's clothing",
-    },
-    {
-      title: "Camperas",
-      path: "men's clothing",
-    },
-    {
-      title: "Abrigos ",
-      path: "women's clothing",
-    },
-    {
-      title: "Remeras",
-      path: "men's clothing",
-    },
-    {
-      title: "Accesorios",
-      path: "jewelery",
+      title: "Pantalones",
+      path: "pantalones",
     },
     {
       title: "Monoprendas",
-      path: "electronics",
+      path: "monoprendas",
+    },
+    {
+      title: "Abrigos ",
+      path: "abrigos",
+    },
+    {
+      title: "Remeras",
+      path: "remeras",
+    },
+    {
+      title: "Accesorios",
+      path: "accesorios",
+    },
+    {
+      title: "Musculosas",
+      path: "musculosas",
     },
   ];
 
   const handleChange = (e) => {
     setFindProduct(e.target.value);
   };
+
+  const getCartLocalStorage = () => {
+    const cartStorage = localStorage.getItem("cart");
+    if (cartStorage) {
+      setCart(JSON.parse(cartStorage));
+    }
+  };
+  useEffect(() => {
+    getCartLocalStorage();
+  }, []);
 
   return (
     <nav>
