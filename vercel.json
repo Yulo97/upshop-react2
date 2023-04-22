@@ -1,9 +1,3 @@
 {
-    "rewrites": [
-      { "source": "/(.*)", "destination": "/index.html" }
-    ],
-    "error": {
-     "status": 404,
-     "file": "404.html"
-    }
+  "cleanUrls": true
 }
